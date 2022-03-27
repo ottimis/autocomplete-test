@@ -1,0 +1,47 @@
+<div class="control-section" *ngIf="resourceDataSource">
+  <div class="col-lg-12 content-wrapper">
+    <ejs-schedule #scheduleObj width='100%' cssClass='timeline-resource' height='650px' [timeScale]="timeScale"
+      [currentView]="currentView" [workHours]="workHours" [workDays]="workWeekDays"
+      [selectedDate]="selectedDate" [group]="group" [eventSettings]="eventSettings" [firstDayOfWeek]="1"
+      (actionBegin)="onActionBegin($event)"
+      (actionComplete)="onActionComplete($event)" (renderCell)="onRenderCell($event)" (popupOpen)="onPopupOpen($event)">
+      <e-resources>
+        <e-resource field='ElementId' title='Tavolo' [dataSource]='resourceDataSource' [allowMultiple]='allowMultiple'
+          name='Tavolo' textField='text' idField='id' colorField='color'>
+        </e-resource>
+      </e-resources>
+      <e-views>
+        <e-view option="TimelineDay"></e-view>
+        <e-view option="TimelineWeek"></e-view>
+      </e-views>
+      <ng-template #editorTemplate let-data>
+        <div class="mb-10" fxLayout="row wrap" fxLayoutGap="2%">
+          <div fxFlex="48">
+            <ejs-autocomplete #customersAutocomplete class="e-field" [dataSource]="customers" [allowCustom]="true"
+              [autofill]="true" [fields]="{ text: 'text', value: 'value' }" [value]="data.iduser" data-name="iduser"
+              placeholder="Cliente" floatLabelType="Always"
+              [minLength]="3">
+              <ng-template #itemTemplate let-data>
+                <span> {{data.text}} </span> <span>({{data.email}})</span>
+              </ng-template>
+            </ejs-autocomplete>
+          </div>
+        </div>
+        <div class="mb-10" fxLayout="row wrap" fxLayoutGap="2%">
+          <ejs-datetimepicker id="StartTime" fxFlex="48" class="e-field" [(value)]="data.StartTime" data-name="StartTime"
+            placeholder="Inizio" floatLabelType="Always">
+          </ejs-datetimepicker>
+          <ejs-datetimepicker id="EndTime" fxFlex="48" class="e-field" [(value)]="data.EndTime" data-name="EndTime"
+            placeholder="Fine" floatLabelType="Always">
+          </ejs-datetimepicker>
+        </div>
+      </ng-template>
+      <ng-template #resourceHeaderTemplate let-data>
+        <div class='template-wrap'>
+          <div class="name">{{data.resourceData.text}}</div>
+          <div class="capacity">{{data.resourceData.capacity}}</div>
+        </div>
+      </ng-template>
+    </ejs-schedule>
+  </div>
+</div>
